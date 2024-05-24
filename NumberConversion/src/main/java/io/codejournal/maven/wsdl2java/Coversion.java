@@ -8,16 +8,20 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class Coversion {
+    // TODO ZUNAID Throwing error without handling it
     public static void main(String[] args) throws MalformedURLException {
         final String endpoint = "https://www.dataaccess.com/webservicesserver/numberconversion.wso";
         final URL url = URI.create(endpoint).toURL();
         final NumberConversion service = new NumberConversion(url);
+        // TODO ZUNAID port is not a good use for a variable name here
         final NumberConversionSoapType port = service.getPort(NumberConversionSoapType.class);
         Scanner scanner = new Scanner(System.in);
         int choice=-1;
 
 
     do {
+        // TODO ZUNAID Incorrect indentation here
+        // TODO ZUNAID Number to words not implemented
             System.out.print("Choose:  \n1:Numbers To Dollar \n2:Numbers To Word \n3:Both \n4:Exit \n");
 
                 try {
@@ -26,11 +30,7 @@ public class Coversion {
                     System.out.println("Invalid choice. Please enter a number.");
                     continue;
                 }
-
-
-
-
-
+        // TODO ZUNAID Would be better with a switch statement and a default like in the sports example
         if (choice != 1 && choice != 2 && choice != 3 && choice != 4 ) {
             System.out.println("Invalid Choice");
         }
@@ -56,6 +56,7 @@ public class Coversion {
         System.out.println("Number in Dollars: " + dollar);
     }
 
+    // TODO ZUNAID Number to words not implemented
     private static void convertToWord(Scanner scanner, NumberConversionSoapType port) {
         System.out.print("Enter Number:");
         String value = scanner.nextLine();
