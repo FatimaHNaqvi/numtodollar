@@ -1,3 +1,4 @@
+
 package io.codejournal.maven.wsdl2java;
 
 import java.math.BigDecimal;
@@ -8,60 +9,69 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class Coversion {
-    public static void main(String[] args) throws MalformedURLException {
+    // TODO ZUNAID Throwing error without handling it
+    // Fatima-with try-catch
+    public static void main(String[] args) {
         final String endpoint = "https://www.dataaccess.com/webservicesserver/numberconversion.wso";
-        final URL url = URI.create(endpoint).toURL();
+        URL url;
+        try {
+            url = URI.create(endpoint).toURL();
+        } catch (MalformedURLException e) {
+            System.err.println("Invalid URL: " + e.getMessage());
+            return; // Exit the program gracefully if URL creation fails
+        }
+        // TODO ZUNAID port is not a good use for a variable name here
+        // Fatima-Changed the name of variable
         final NumberConversion service = new NumberConversion(url);
-        final NumberConversionSoapType port = service.getPort(NumberConversionSoapType.class);
+        final NumberConversionSoapType NCD = service.getPort(NumberConversionSoapType.class);
         Scanner scanner = new Scanner(System.in);
-        int choice=-1;
+        int choice;
 
 
-    do {
+        do {
+            // TODO ZUNAID Incorrect indentation here
+            // TODO ZUNAID Number to words not implemented
+            // Fatima- Indentation corrected and  Number to words implemented
             System.out.print("Choose:  \n1:Numbers To Dollar \n2:Numbers To Word \n3:Both \n4:Exit \n");
+            choice = Integer.parseInt(scanner.nextLine());
+            // TODO ZUNAID Would be better with a switch statement and a default like in the sports example
+            // Fatima- Switch has been used instead of if/else
+            switch (choice) {
+                case 1:
+                    convertToDollar(scanner, NCD);
+                    break;
+                case 2:
+                    convertToWord(scanner, NCD);
+                    break;
+                case 3:
+                    convertToDollar(scanner, NCD);
+                    convertToWord(scanner, NCD);
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid Choice");
+                    break;
+            }
 
-                try {
-                    choice = Integer.parseInt(scanner.nextLine());
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid choice. Please enter a number.");
-                    continue;
-                }
+        } while (true);
 
+    }
 
-
-
-
-        if (choice != 1 && choice != 2 && choice != 3 && choice != 4 ) {
-            System.out.println("Invalid Choice");
-        }
-        if (choice == 1) {
-            convertToDollar(scanner, port);
-        }
-        else if (choice == 2) {
-            convertToDollar(scanner, port);
-        }
-        else if (choice == 3) {
-            convertToDollar(scanner, port);
-        }
-        else if (choice == 4) {
-            System.exit(0);
-        }
-       }while(choice != 4);
-
-}
-    private static void convertToDollar(Scanner scanner, NumberConversionSoapType port) {
+    private static void convertToDollar(Scanner scanner, NumberConversionSoapType NCD) {
         System.out.print("Enter Number:");
         String value = scanner.nextLine();
-        String dollar = port.numberToDollars(BigDecimal.valueOf(Long.parseLong(value)));
+        String dollar = NCD.numberToDollars(BigDecimal.valueOf(Long.parseLong(value)));
         System.out.println("Number in Dollars: " + dollar);
     }
 
-    private static void convertToWord(Scanner scanner, NumberConversionSoapType port) {
+    // TODO ZUNAID Number to words not implemented
+    // Fatima-Number to words implemented
+    private static void convertToWord(Scanner scanner, NumberConversionSoapType NCD) {
         System.out.print("Enter Number:");
         String value = scanner.nextLine();
-        String word = port.numberToWords(BigInteger.valueOf(Long.parseLong(value)));
+        String word = NCD.numberToWords(BigInteger.valueOf(Long.parseLong(value)));
         System.out.println("Number in Words: " + word);
     }
 }
-
-
