@@ -1,4 +1,3 @@
-
 package io.codejournal.maven.wsdl2java;
 
 import java.math.BigDecimal;
@@ -10,9 +9,13 @@ import java.util.Scanner;
 
 public class Coversion {
     // TODO ZUNAID Throwing error without handling it
+    // FIXME Nadia: remove redundant throw from method
+    //Fatima- Throw method removed
     // Fatima-with try-catch
     public static void main(String[] args) {
         final String endpoint = "https://www.dataaccess.com/webservicesserver/numberconversion.wso";
+        // FIXME Nadia: Redundant initializer. Make use of warnings
+        //Fatima-Done
         URL url;
         try {
             url = URI.create(endpoint).toURL();
@@ -21,13 +24,12 @@ public class Coversion {
             return; // Exit the program gracefully if URL creation fails
         }
         // TODO ZUNAID port is not a good use for a variable name here
-        // Fatima-Changed the name of variable
+        // FIXME Nadia: Variable names need to be descriptive
+        //Fatima-Changed the name of variable and made it more descriptive
         final NumberConversion service = new NumberConversion(url);
-        final NumberConversionSoapType NCD = service.getPort(NumberConversionSoapType.class);
+        final NumberConversionSoapType NumberConversionPort = service.getPort(NumberConversionSoapType.class);
         Scanner scanner = new Scanner(System.in);
         int choice;
-
-
         do {
             // TODO ZUNAID Incorrect indentation here
             // TODO ZUNAID Number to words not implemented
@@ -38,14 +40,14 @@ public class Coversion {
             // Fatima- Switch has been used instead of if/else
             switch (choice) {
                 case 1:
-                    convertToDollar(scanner, NCD);
+                    convertToDollar(scanner, NumberConversionPort);
                     break;
                 case 2:
-                    convertToWord(scanner, NCD);
+                    convertToWord(scanner, NumberConversionPort);
                     break;
                 case 3:
-                    convertToDollar(scanner, NCD);
-                    convertToWord(scanner, NCD);
+                    convertToDollar(scanner, NumberConversionPort);
+                    convertToWord(scanner, NumberConversionPort);
                     break;
                 case 4:
                     System.exit(0);
@@ -55,10 +57,10 @@ public class Coversion {
                     break;
             }
 
-        } while (true);
-
+        } while (choice != 4);
+        // FIXME Nadia: remove whitespace
+        //Fatima- Done
     }
-
     private static void convertToDollar(Scanner scanner, NumberConversionSoapType NCD) {
         System.out.print("Enter Number:");
         String value = scanner.nextLine();
@@ -75,3 +77,5 @@ public class Coversion {
         System.out.println("Number in Words: " + word);
     }
 }
+
+
